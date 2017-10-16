@@ -1,0 +1,36 @@
+.fluid-slider-arrow-left, .fluid-slider-arrow-right {
+	width: 3%;
+	float: left;
+}
+.fluid-slider-arrow-left img, .fluid-slider-arrow-right img {
+	width: 100%;
+	height: 170px;
+	cursor: pointer;
+}
+.fluid-slider-arrow-left {
+	margin-right: 2%;
+}
+.fluid-slider-arrow-right {
+	margin-left: 2%;
+}
+.fluid-slider-window {
+	height: 170px;
+	position: relative;
+	width: 90%;
+	float: left;
+	overflow: hidden;
+}
+.fluid-slider-container {
+	height: 170px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.fluid-slider-image {
+	width: 146px;
+	height: 146px;
+	background: url('../img/fluid-slider-bg.png');
+	padding: 12px;
+	margin: 0 5px;
+	float: left;
+}

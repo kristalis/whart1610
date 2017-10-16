@@ -1,0 +1,19 @@
+$arrSku = array('612552892' => array('quantity' => 1), '625512336' => array('quantity' => 10) );
+
+$arrNewSku = array();
+$incI = 0;
+foreach($arrSku AS $arrKey => $arrData){
+    $arrNewSku[$incI]['sku_id'] = $arrKey;
+    $arrNewSku[$incI]['quantity'] = $arrData['quantity'];
+    $incI++;
+}
+
+//Convert array to json form...
+$encodedSku = json_encode($arrNewSku);
+
+print('<pre>');
+print_r($encodedSku);
+print('</pre>');
+
+//Output:
+[{"sku_id":612552892,"quantity":1},{"sku_id":625512336,"quantity":10}]
