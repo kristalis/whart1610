@@ -17,7 +17,7 @@
       <ol class="breadcrumb">
   <a href="{{ url('contacts') }}">   <button type="submit" class="btn btn-primary">Preview Page</button> </a>
       <button type="submit" class="btn btn-primary" form="frmloc">Save Page</button> 
-      <button type="submit" class="btn btn-primary">Save & Exit</button> 
+       
     </ol>
     </section>
 <!-- form start -->
@@ -297,8 +297,9 @@
       <form action="{{@url('contacts').'/'.$location->id}}" method="post">
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
-                <button class="btn btn-danger">Delete</button>
-            </form>
+                 <button class="btn btn-danger pull-right"><i class="fa fa-trash-o"></i></button>
+            </form>            
+            <a href="{{@url('contacts').'/'.$location->id.'/edit'}}" class="btn btn-primary pull-right" ><i class="fa fa-edit"></i></a>
           </td>
         </tr>
         {{-- {{$i++}} --}}

@@ -73,18 +73,18 @@ class EventController extends Controller
         $extension = $image->getClientOriginalExtension();
         $image->move(base_path('images'),$eventImage);
 
-       
+        }
 
         $events = new \App\Event;
         $events->eventtitle = $request->event_title;
         $events->eventsubtitle = $request->event_subtitle;
         $events->eventtext = $request->events_txt;
-        $events->eventimage = $eventImage;
+        $events->eventimage = $request->my_image;
         $events->eventlink = $request->event_link;
-        $events->eventfile = $eventFile;
+        $events->eventfile = $request->my_file;
         $events->save();
-
-   }
+         
+  
          $data['status'] = 'Event added Successfully';
          return redirect()->action('EventController@create')->with( $data );
     }
@@ -106,10 +106,48 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function edit(Event $event)
+    public function edit( $id)
     {
-        //
+        $pageheaders = \App\Page::get()->where('id','5');
+        $eventcontents =  \App\Event::all();
+        $eventinfo =  \App\Event::find($id);
+        return view('eventpages.edit', compact('pageheaders','eventcontents','eventinfo'));
     }
+
+    public function updateEvent(Request $request, $id)
+    {
+        $events = \App\Event::find($id);
+        if(Input::hasFile('event_file'))
+        {
+        $efile = $request->file('event_file');
+        $eventFile = $efile->getClientOriginalName();
+        $extension = $efile->getClientOriginalExtension();
+        $efile->move(base_path('files'),$eventFile);
+    } 
+
+      if(Input::hasFile('event_image'))
+      {
+        $image = $request->file('event_image');
+        $eventImage = $image->getClientOriginalName();
+        $extension = $image->getClientOriginalExtension();
+        $image->move(base_path('images'),$eventImage);
+}
+       
+
+        
+        $events->eventtitle = $request->event_title;
+        $events->eventsubtitle = $request->event_subtitle;
+        $events->eventtext = $request->events_txt;
+        $events->eventimage = $request->my_image;
+        $events->eventlink = $request->event_link;
+        $events->eventfile = $request->my_file;
+        $events->save();
+
+          $data['status']  = 'Event updated Successfully';
+         return redirect()->back()->with( $data );
+
+   }
+    
 
     /**
      * Update the specified resource in storage.

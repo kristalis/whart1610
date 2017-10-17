@@ -221,7 +221,7 @@
           <td>{{ $menu->menufile}}</td>
           <td>{{ HTML::image('images/'.$menu->menuimage, 'FL Restaurant Lite', array('width' => '50', 'height' => '50')) }}</td>
           <td>
-            <p><a href="{{@url('menus').'/'.$menu->id.'/edit'}}" class="btn btn-primary" data-toggle="modal">ed<i class="fa fa-edit"></i></a></p>
+            <p><a href="{{@url('menus').'/'.$menu->id.'/edit'}}" class="btn btn-primary" data-toggle="modal"><i class="fa fa-edit"></i></a></p>
       <form action="{{@url('menus').'/'.$menu->id}}" method="post">
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
@@ -238,8 +238,8 @@
         <!--/.col (right) -->
       </div>
     @if(!empty($menuinfo) )
-  
-<form class="form-horizontal" method="POST" action="{{ route('menus.store') }}" id="frmMod" enctype="multipart/form-data">
+      
+<form class="form-horizontal" method="POST" action="{{ url('menus/updatemenu') .'/'. $menuinfo->id  }}" id="frmMod" enctype="multipart/form-data">
   {{ csrf_field() }}
   
  <div class="modal modal-info fade" id="edit_modal">
@@ -302,7 +302,68 @@
  
 </form>
  @endif
+ <form class="form-horizontal" method="POST" action="{{ route('menus.store') }}" id="frmMod" enctype="multipart/form-data">
+  {{ csrf_field() }}
+  
+ <div class="modal modal-info fade" id="modal-info">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-bold">Here you can add your Menu(s) details</h4>
+              </div>
+              <div class="modal-body">
+
+      
+        <!-- left column -->
+
+                
  
+                    <label>Upload Menu File</label>
+<div class="form-group{{ $errors->has('menu_file') ? ' has-error' : '' }}">
+                  
+      <input type="file" name="menu_file" id="menu_file" class="btn btn-primary" placeholder="Please choose your image">
+    </div>
+       
+                        <label>Upload Menu background Image</label>
+<div class="form-group{{ $errors->has('menu_image') ? ' has-error' : '' }}">
+                  
+      <input type="file" name="menu_image" id="menu_image" class="btn btn-primary" placeholder="Please choose your image">
+    </div>
+            
+      <label>Menu Title</label>
+     <div class="form-group{{ $errors->has('menu_title') ? ' has-error' : '' }}">
+                                 <div class="col-md-12">
+                                <input id="menu_title" type="text" class="form-control" name="menu_title" placeholder="Enter menu title: [e.g. Breakfast Menu]" >
+
+                                @if ($errors->has('menu_title'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('menu_title') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            </div>
+     
+                       
+        <div class="form-group">
+                <button type="submit" class="btn btn-primary pull-right"  form="frmMod"> Submit Menu Details</button>
+  <button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Close</button>
+        </div>
+   
+         
+       
+            <!-- /.modal-content -->
+           
+          <!-- /.modal-dialog -->
+        </div>
+    
+    </div>
+        <!-- /.modal -->
+    </div>
+  </div>
+ 
+</form>
       <!-- /.row -->
       
     </section>

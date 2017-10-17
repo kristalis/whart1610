@@ -19,7 +19,6 @@
       <ol class="breadcrumb">
       <a href="{{ url('menus') }}"><button type="submit" class="btn btn-primary">Preview Page</button></a>
       <button type="submit" class="btn btn-primary" form="frmMenu">Save Page</button> 
-      <button type="submit" class="btn btn-primary">Save & Exit</button> 
     </ol>
     </section>
 <!-- form start -->

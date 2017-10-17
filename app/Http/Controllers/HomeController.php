@@ -46,7 +46,10 @@ class HomeController extends Controller
            $homeimages = \App\Gallery::get()->where('pageid','1');
            $homecontents = \App\Home::orderBy('created_at', 'asc')->first()->get();
            $pageheaders = \App\Page::get()->where('id','1'); 
-           return view('homepages.create', ['pageheaders'=> $pageheaders,'homecontents'=> $homecontents, 'homeimages'=> $homeimages]);
+           $eventcontents =  \App\Event::orderBy('created_at', 'desc')->limit(3)->get();
+
+          // return response($eventcontents,200);
+           return view('homepages.create', compact('pageheaders','homecontents','eventcontents','homeimages'));
     }
 }
 

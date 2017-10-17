@@ -56,8 +56,8 @@ class MenuController extends Controller
     public function store(Request $request)
     { 
     
-
-        if(Input::hasFile('menu_image') && Input::hasFile('menu_file') )
+        //return response($request->menu_image, 200);
+       if(Input::hasFile('menu_image') && Input::hasFile('menu_file') )
       {
 
 
@@ -70,14 +70,14 @@ class MenuController extends Controller
         $mFile = $doc->getClientOriginalName();
         $extension = $doc->getClientOriginalExtension();
         $doc->move(base_path('files'),$mFile);
-       
+       }
         $menus = new \App\Menu;
         $menus->menutitle = $request->menu_title;
         $menus->menufile = $mFile;
         $menus->menuimage = $mImage;
         $menus->menutext = json_encode($request->fld_val3);
         $menus->save(); 
-    }
+    
         $data['status'] = 'Menu added Successfully';
         return redirect()->action('MenuController@create')->with( $data );
     
@@ -103,7 +103,7 @@ class MenuController extends Controller
     public function edit($id)
     {
 
-  $menucontents =  \App\Menu::all();
+        $menucontents =  \App\Menu::all();
         $menuinfo  = \App\Menu::find($id);
 
     
@@ -116,8 +116,28 @@ return view('menupages.create',compact('menucontents','menuinfo','pageheaders'))
     }
  public function updateMenu(Request $request, $id)
     {  
-        $menus = \App\Menu::find($id);
+
+         $menus = \App\Menu::find($id);
+          if(Input::hasFile('menu_image') && Input::hasFile('menu_file') )
+      {
+
+
+        $image = $request->file('menu_image');
+        $mImage = $image->getClientOriginalName();
+        $extension = $image->getClientOriginalExtension();
+        $image->move(base_path('images'),$mImage);
+
+        $doc = $request->file('menu_file');
+        $mFile = $doc->getClientOriginalName();
+        $extension = $doc->getClientOriginalExtension();
+        $doc->move(base_path('files'),$mFile);
+       }
+       
+        $menus->menutitle = $request->menu_title;
+        $menus->menufile = $mFile;
+        $menus->menuimage = $mImage;
         $menus->save(); 
+    
          $data['status'] = 'Menu updated Successfully';
         return redirect()->action('MenuController@create')->with( $data );
     }

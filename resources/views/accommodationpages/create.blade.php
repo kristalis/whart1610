@@ -19,7 +19,7 @@
       <ol class="breadcrumb">
    <a href="{{ url('rooms') }}"> <button type="submit" class="btn btn-primary">Preview Page</button> </a>
       <button type="submit" class="btn btn-primary" form="frmE">Save Page</button> 
-      <button type="submit" class="btn btn-primary">Save & Exit</button> 
+     
     </ol>
     </section>
 <!-- form start -->
@@ -160,8 +160,9 @@
       </div>
         @endforeach 
 </form>
-  
+ 
   <form class="form-horizontal" method="POST" action="{{ route('rooms.store') }}"  enctype="multipart/form-data">
+
       {{ csrf_field() }}
 
       <!-- /.row -->
@@ -180,7 +181,7 @@
                         <div class="form-group{{ $errors->has('room_title') ? ' has-error' : '' }}">
                                  <div class="col-md-12">
 
-                                <input id="room_title" type="text" class="form-control" name="room_title" placeholder="Enter [Main Room, etc ].." >
+                                <input id="room_title" type="text" class="form-control" name="room_title" placeholder="Enter [Main Room, etc ].."  >
 
                                 @if ($errors->has('room_title'))
                                     <span class="help-block">
@@ -276,7 +277,7 @@
         </div>
         <!--/.col (right) -->
       </div></form>
-   
+ 
       
 <div class="row">
    <div class="box box-primary">
@@ -299,15 +300,17 @@
         @foreach ($roomcontents as $room) 
         <tr>
           
-          <td width="200px">{{$room->roomtitle}}</td>
-          <td>{{ $room->roomdesc}}</td>
+          <td width="25%" >{{$room->roomtitle}}</td>
+          <td>{{ str_limit($room->roomdesc, $limit = 100, $end = '..... ') }}</td>
            <td>{{ HTML::image('images/'.$room->roomimage, 'FL Restaurant Lite', array('width' => '50', 'height' => '50')) }}</td>
-          <td>
+          <td width="7%">          
+
       <form action="{{@url('rooms').'/'.$room->id}}" method="post">
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
-                <button class="btn btn-danger">Delete</button>
+                <button class="btn btn-danger pull-right"><i class="fa fa-trash-o"></i></button>
             </form>
+              <a href="{{@url('rooms').'/'.$room->id.'/edit'}}" class="btn btn-primary pull-right"><i class="fa fa-edit"></i></a>
           </td>
         </tr>
         {{-- {{$i++}} --}}
@@ -318,10 +321,150 @@
 </div>
     </section>
     <!-- /.content -->
+     @if(!empty($roominfo) )
+  <form class="form-horizontal" method="POST" action="{{ route('rooms.store') }}"  enctype="multipart/form-data">
+
+      {{ csrf_field() }}
+<div class="modal modal-info fade" id="edit_modal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-bold">Here you can add your Menu(s) details</h4>
+              </div>
+              <div class="modal-body">
+      <!-- /.row -->
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-6">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+            <h3 class="box-title text-bold">Here you can add your room details</h3>
+             <br>
+             Feel free to change it - try to keep the style 
+            </div>
+            <!-- /.box-header -->
+            
+                        <div class="form-group{{ $errors->has('room_title') ? ' has-error' : '' }}">
+                                 <div class="col-md-12">
+
+                                <input id="room_title" type="text" class="form-control" name="room_title" placeholder="Enter [Main Room, etc ].." value="{{$roominfo->roomtitle}}" >
+
+                                @if ($errors->has('room_title'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('room_title') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                          </div>
+                      
+               <div class="form-group{{ $errors->has('room_price') ? ' has-error' : '' }}">
+                             <div class="col-md-12">
+                                <input id="room_price" type="text" class="form-control" name="room_price" placeholder="From £50 per night">
+
+                                @if ($errors->has('room_price'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('room_price') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            </div>
+                    <div class="form-group{{ $errors->has('room_image') ? ' has-error' : '' }}">
+                             <div class="col-md-12">
+  <div class="col-xs-4">                          
+  
+ <div id="select_file" class="btn btn-success">Upload Room Image</div>
+        <input class='file' type="file" style="display: none" class="form-control" name="room_image" id="room_image" placeholder="Please choose your image">
+  
+  </div>    <div class="col-xs-8">
+
+  <input id="my_image" type="hidden" name="my_image" class="form-control input-lg" value="" >
+          
+                                @if ($errors->has('logo'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('logo') }}</strong>
+                                    </span>
+                                @endif
+
+                            </div>  
+
+                  <div id="my_file"></div> 
+                               
+                            </div>
+                            </div>  
+                                <div class="form-group{{ $errors->has('booking_url') ? ' has-error' : '' }}">
+                             <div class="col-md-12">
+                                <input id="booking_url" type="text" class="form-control" name="booking_url" placeholder="Enter booking URL- http://www." >
+
+                                @if ($errors->has('booking_url'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('booking_url') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            </div>  
+
+                             @if (session('roomSaved'))
+                              <div class="alert alert-success rmalert">
+                                  {{ session('roomSaved') }}
+                              </div>
+                             @endif
+          </div>
+          <!-- /.box -->
+          
+         
+        </div>
+        <!--/.col (left) -->
+        <!-- right column -->
+        <div class="col-md-6">
+                <div class="box box-info">
+            
+            <!-- /.box-header -->
+               <div class="col-md-12">
+                         <div class="form-group{{ $errors->has('rooms_txt') ? ' has-error' : '' }}">
+                         
+                            <textarea class="form-control" rows="7" placeholder="Enter brief description for the room ..." id="rooms_txt" name="rooms_txt" ></textarea>
+              
+            
+                        @if ($errors->has('rooms_txt'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('rooms_txt') }}</strong>
+                                    </span>
+                                @endif
+                       
+                      </div>            
+ 
+                      </div>
+                      <div class="form-group">
+                    <button type="submit" class="btn btn-primary pull-right">Add Accommodation</button> 
+                      </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!--/.col (right) -->
+      </div>
+</div>
+</div>
+</div>
+</div>
+    </form>
+   @endif
   </div>
 @endsection
 @section('pagescripts')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+@if(!empty($roominfo))
+<script>
+$(function() {
+    $('#edit_modal').modal('show');
+});
+</script>
+@endif
+
 <script>
   $(document).ready(function(){
  $( '#rmalert').fadeOut(1000 );

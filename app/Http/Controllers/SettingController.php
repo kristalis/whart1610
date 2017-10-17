@@ -71,17 +71,11 @@ class SettingController extends Controller
         $settings->twitterurl = $request->twitter_url;
         $settings->googleurl = $request->google_url;
         $settings->youtubeurl = $request->youtube_url;
-        $settings->adminemail = $request->admin_email;
-        $settings->pubname = $request->pub_name;
-        $settings->publocation = $request->pub_loc;
+         
+       
         $settings->save();
-        /*
-        $users = \App\User::find(\Auth::user()->id);
-        $users->name = $request->login_name;
-        $users->email = $request->login_email;
-        $users->password = bcrypt($request->login_pwd);
-        $users->save();
-*/      $contacts = \App\Contact::find($request->contactid);
+        
+        $contacts = \App\Contact::find($request->contactid);
         $contacts->branchname = $request->branchname;
         $contacts->address = $request->streetname;
         $contacts->location = $request->town;

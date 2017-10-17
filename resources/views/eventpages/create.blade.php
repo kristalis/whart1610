@@ -19,7 +19,7 @@
       <ol class="breadcrumb">
     <a href="{{ url('events') }}"> <button type="submit" class="btn btn-primary">Preview Page</button> </a>
       <button type="submit" class="btn btn-primary" form="frmE">Save Page</button> 
-      <button type="submit" class="btn btn-primary">Save & Exit</button> 
+      
     </ol>
     </section>
 <!-- form start -->
@@ -233,7 +233,7 @@
                       </div>
                       </div>
                       <div class="form-group">
-                    <button type="submit" class="btn btn-primary pull-right">Add Events</button> 
+                    <button type="submit" class="btn btn-primary pull-right">Add Event</button> 
                       </div>
             <!-- /.box-body -->
           </div>
@@ -262,15 +262,17 @@
         @foreach ($eventcontents as $event) 
         <tr>
           
-          <td width="200px">{{$event->eventtitle}}</td>
-          <td>{{ $event->eventsubtitle}}</td>
+          <td width="25%">{{$event->eventtitle}}</td>
+          <td>{{ str_limit($event->eventtext, $limit = 50, $end = '..... ') }}</td>
            <td>{{ HTML::image('images/'.$event->eventimage, 'Events', array('width' => '50', 'height' => '50')) }}</td>
-          <td>
+          <td width="10%">
       <form action="{{@url('events').'/'.$event->id}}" method="post">
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
-                <button class="btn btn-danger">Delete</button>
-            </form>
+                 <button class="btn btn-danger pull-right"><i class="fa fa-trash-o"></i></button>
+            </form>            
+            <a href="{{@url('events').'/'.$event->id.'/edit'}}" class="btn btn-primary pull-right" ><i class="fa fa-edit"></i></a>
+
           </td>
         </tr>
         {{-- {{$i++}} --}}

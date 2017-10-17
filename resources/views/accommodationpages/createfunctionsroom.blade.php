@@ -19,7 +19,7 @@
       <ol class="breadcrumb">
    <a href="{{ url('functionrooms') }}"> <button type="submit" class="btn btn-primary">Preview Page</button> </a>
       <button type="submit" class="btn btn-primary" form="frmF">Save Page</button> 
- <button type="submit" class="btn btn-primary">Save & Exit</button> 
+
     </ol>
     </section>
 <!-- form start -->
@@ -266,14 +266,15 @@
         @foreach ($roomcontents as $room) 
         <tr>
           
-          <td width="200px">{{$room->roomtitle}}</td>
-          <td>{{ $room->roomdesc}}</td>
+          <td width="25%">{{$room->roomtitle}}</td>
+          <td>{{ str_limit($room->roomdesc, $limit = 100, $end = '..... ') }}</td>
            <td>{{ HTML::image('images/'.$room->roomimage, 'FL Restaurant Lite', array('width' => '50', 'height' => '50')) }}</td>
-          <td>
+          <td width="7%">
       <form action="{{@url('functionrooms').'/'.$room->id}}" method="post">
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
-                <button class="btn btn-danger">Delete</button>
+                 <button class="btn btn-danger pull-right"><i class="fa fa-trash-o"></i></button>
+                 <a href="{{@url('rooms').'/'.$room->id.'/edit'}}" class="btn btn-primary pull-right"><i class="fa fa-edit"></i></a
             </form>
           </td>
         </tr>

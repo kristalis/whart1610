@@ -360,6 +360,52 @@
 
      
        @endforeach</form>
+        <div class="row">
+      <!-- left column -->
+        <div class="col-md-12">
+   <div class="box box-primary">
+            <div class="box-header with-border">
+             <h3 class="box-title"><b>Current 3 Events displayed on home page</b></h3> <a href="{{@url('events/create')}}" class="btn btn-primary pull-right" >Click to ADD Events</a>
+
+            </div>
+        
+<table class="table table-bordered table-hover">
+      <thead class="thead-default">
+        <tr>
+         
+          <th>Event</th>
+          <th>Brief</th>
+          <th>Picture</th>
+          <th></th>
+
+        </tr>
+      </thead>
+      <tbody>
+        
+        @foreach ($eventcontents as $event) 
+        <tr>
+          
+          <td width="25%">{{$event->eventtitle}}</td>
+          <td>{{ str_limit($event->eventtext, $limit = 50, $end = '..... ') }}</td>
+           <td>{{ HTML::image('images/'.$event->eventimage, 'Events', array('width' => '50', 'height' => '50')) }}</td>
+          <td width="10%">
+      <form action="{{@url('events').'/'.$event->id}}" method="post">
+                {{ csrf_field() }}
+                {{ method_field('DELETE') }}
+                 <button class="btn btn-danger pull-right"><i class="fa fa-trash-o"></i></button>
+            </form>            
+            <a href="{{@url('events').'/'.$event->id.'/edit'}}" class="btn btn-primary pull-right" ><i class="fa fa-edit"></i></a>
+
+          </td>
+        </tr>
+          
+        @endforeach
+      </tbody>
+    </table> 
+
+   
+  </div>
+</div></div>
     <div class="row">
            <div class="col-md-12">
           <!-- general form elements -->

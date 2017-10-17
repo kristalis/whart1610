@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Input;
 
+
 class RoomController extends Controller
 {
     /**
@@ -106,10 +107,48 @@ class RoomController extends Controller
      * @param  \App\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function edit(Room $room)
+    public function edit($id)
     {
-        //
+            $roomcontents =  \App\Room::get();
+            $roominfo =  \App\Room::find($id);
+            $pageheaders = \App\Page::get()->where('id','3');
+         return view('accommodationpages.edit',compact('roomcontents', 'roominfo'));
+         
+     //return response($roominfo,200);
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Room  $room
+     * @return \Illuminate\Http\Response
+     */
+    public function updateRoom(Request $request, $id)
+    {
+       $rooms =  \App\Room::find($id);
+       if(Input::hasFile('room_image') )
+        {
+            $image = $request->file('room_image');
+            $roomImage = $image->getClientOriginalName();
+            $extension = $image->getClientOriginalExtension();
+            $image->move(base_path('images'),$roomImage);
+        }
+           
+            $rooms->roomtitle = $request->room_title;
+            $rooms->bookingurl = $request->booking_url;
+            $rooms->roomprice = $request->room_price;
+            $rooms->roomdesc = $request->rooms_txt;
+            $rooms->roomimage = $request->my_image;
+            $rooms->roomtype = $request->room_type;
+            $rooms->save();
+
+        $data['status']  = 'Room updated Successfully';
+         return redirect()->back()->with( $data );
+      //  return redirect()->action('RoomController@create')->with( $data ); 
+    }
+    
+
 
     /**
      * Update the specified resource in storage.

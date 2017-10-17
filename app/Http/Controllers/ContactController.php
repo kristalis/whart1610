@@ -123,11 +123,43 @@ class ContactController extends Controller
      */
     public function edit($id)
     {
-
-        $contacts= \App\Contact::find($id);
-        $pageheaders = \App\Page::get()->where('id','7');
-        return view('contactpages.create', ['contacts' => $contacts, ' pageheaders ' =>  $pageheaders ]);
+         
+         $locs = $this->getLocations();
+         $pageheaders = \App\Page::get()->where('id','7');
+         $contactinfo= \App\Contact::find($id);
+         $pageheaders = \App\Page::get()->where('id','7');
+          return view('contactpages.edit', compact('contactinfo','locs',' pageheaders'));
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Contact  $contact
+     * @return \Illuminate\Http\Response
+     */
+    public function updateContact(Request $request, $id)
+    {
+        
+        $contacts = \App\Contact::find($id);
+        $contacts->branchname = $request->branchname;
+        $contacts->address = $request->streetname;
+        $contacts->location = $request->town;
+        $contacts->county = $request->county;
+        $contacts->postcode = $request->postcode;
+        $contacts->phone = $request->phone;
+        $contacts->email = $request->email;
+        $contacts->fax = $request->faxline;
+        $contacts->googlemap = $request->googlemap;
+        $contacts->loctype = 'Branch';
+        $contacts->weburl = $request->web_url;
+        $contacts->save();
+
+        $data['status'] = 'Contact details updated Successfully';  
+
+         return redirect()->back()->with( $data );
+    }
+
 
     /**
      * Update the specified resource in storage.

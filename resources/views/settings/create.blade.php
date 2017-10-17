@@ -18,7 +18,7 @@
       <ol class="breadcrumb">
      <a href="{{ url('homes') }}"> <button type="submit" class="btn btn-primary">Visit Site</button> </a>
       <button type="submit" class="btn btn-primary" form="frmSettings">Save Settings</button> 
-      <button type="submit" class="btn btn-primary">Save & Exit</button> 
+       
     </ol>
     </section>
 <!-- form start -->
@@ -80,14 +80,14 @@
               <h3 class="box-title text-bold">Update Login Details</h3>   
                               
                                   <label class="pull-right">
-                                    <input type="checkbox"> Check to update login details
+                                    <input type="checkbox" disabled> Check to update login details
                                   </label>
                
  
             </div>
               <div class="form-group{{ $errors->has('login-name') ? ' has-error' : '' }}">
                                  <div class="col-md-12">
-                                <input id="login_name" type="text" class="form-control" name="login_name" value=" {{ Auth::user()->name }}  " required autofocus>
+                                <input id="login_name" type="text" class="form-control" name="login_name" value=" {{ Auth::user()->name }}  " disabled>
 
                                 @if ($errors->has('login-name'))
                                     <span class="help-block">
@@ -98,7 +98,7 @@
                           </div>
                             <div class="form-group{{ $errors->has('login_email') ? ' has-error' : '' }}">
                                  <div class="col-md-12">
-                                <input id="login_email" type="email" class="form-control" name="login_email" value=" {{ Auth::user()->email }}  " required autofocus>
+                                <input id="login_email" type="email" class="form-control" name="login_email" value=" {{ Auth::user()->email }}  " disabled>
 
                                 @if ($errors->has('login_email'))
                                     <span class="help-block">
@@ -123,7 +123,7 @@
                             </div>
                           </div>    <div class="form-group{{ $errors->has('login_pwd') ? ' has-error' : '' }}">
                                  <div class="col-md-12">
-                                <input id="login_pwd" type="password" class="form-control" name="login_pwd" placeholder="New Password" required autofocus>
+                                <input id="login_pwd" type="password" class="form-control" name="login_pwd" placeholder="New Password" disabled>
 
                                 @if ($errors->has('login_pwd'))
                                     <span class="help-block">
@@ -133,7 +133,7 @@
                             </div>
                           </div>    <div class="form-group{{ $errors->has('login_pwd') ? ' has-error' : '' }}">
                                  <div class="col-md-12">
-                                <input id="login_pwd" type="password" class="form-control" name="login_pwd" placeholder="Confirm Password" required autofocus>
+                                <input id="login_pwd" type="password" class="form-control" name="login_pwd" placeholder="Confirm Password" disabled>
 
                                 @if ($errors->has('login_pwd'))
                                     <span class="help-block">
@@ -399,7 +399,7 @@
   <script type="text/javascript">
     function display(div,inputfile,divfilename,hiddeninput ) {
         var id = $(div).attr('id');
-        alert(id);
+       
         $(inputfile).trigger('click');
         $(inputfile).change(function() {
         var filename = $(inputfile).val();
